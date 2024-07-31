@@ -4,6 +4,7 @@ import entities.Order;
 import entities.Product;
 import functional_interfaces.Discount;
 
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -18,10 +19,9 @@ public class Main {
 
         List<Customer> customers = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            long id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
             String name = faker.lordOfTheRings().character();
             int tier = faker.number().numberBetween(1, 3);
-            Customer customer = new Customer(id, name, tier);
+            Customer customer = new Customer(name, tier);
             customers.add(customer);
         }
         /*System.out.println("--------CUSTOMERS-------");
@@ -29,29 +29,26 @@ public class Main {
 
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            long id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
             String name = faker.book().title();
             String category = "Books";
             double price = faker.number().randomDouble(2, 10, 250);
-            Product product = new Product(id, name, category, price);
+            Product product = new Product(name, category, price);
             products.add(product);
         }
 
         for (int i = 0; i < 10; i++) {
-            long id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
             String name = faker.pokemon().name();
             String category = "Baby";
             double price = faker.number().randomDouble(2, 10, 250);
-            Product product = new Product(id, name, category, price);
+            Product product = new Product(name, category, price);
             products.add(product);
         }
 
         for (int i = 0; i < 10; i++) {
-            long id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
             String name = faker.beer().name();
             String category = "Boys";
             double price = faker.number().randomDouble(2, 10, 250);
-            Product product = new Product(id, name, category, price);
+            Product product = new Product(name, category, price);
             products.add(product);
         }
 
@@ -105,7 +102,9 @@ public class Main {
         Discount minusTenPercent = product -> {
             double price = product.getPrice();
             double discount = (price * 10) / 100;
-            product.setPrice(price - discount);
+            double finalPrice = price - discount;
+            DecimalFormat df = new DecimalFormat("#.##");
+            product.setPrice(Double.parseDouble(df.format(finalPrice)));
             return product;
         };
 
@@ -135,14 +134,17 @@ public class Main {
         Predicate<Order> isBeforeFirstJuly = order -> order.getOrderDate().isBefore(firstJuly);
         Predicate<Order> isTierTwo = order -> order.getCustomer().getTier() == 2;
 
+        List<Product> twoMonthsProducts = new ArrayList<>();
         List<Order> twoMonthsOrders = orders.stream()
                 .filter(isAfterLastDayOfMarch.and(isBeforeFirstJuly))
                 .filter(isTierTwo)
                 .toList();
 
+        twoMonthsOrders.forEach(order -> twoMonthsProducts.addAll(order.getProducts()));
+
         System.out.println("/*---------------------------------------------EX4---------------------------------------------*/");
-        for (Order order : twoMonthsOrders) {
-            System.out.println(order);
+        for (Product product : twoMonthsProducts) {
+            System.out.println(product);
         }
     }
 

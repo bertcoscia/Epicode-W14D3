@@ -1,13 +1,16 @@
 package entities;
 
+import com.github.javafaker.Faker;
+
 public class Product {
     protected long id;
     protected String name;
     protected String category;
     protected double price;
 
-    public Product(long id, String name, String category, double price) {
-        this.id = id;
+    public Product(String name, String category, double price) {
+        Faker faker = new Faker();
+        this.id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
         this.name = name;
         this.category = category;
         this.price = price;

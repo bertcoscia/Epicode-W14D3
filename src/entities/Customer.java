@@ -1,5 +1,7 @@
 package entities;
 
+import com.github.javafaker.Faker;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,8 +12,9 @@ public class Customer {
     protected String name;
     protected int tier;
 
-    public Customer(long id, String name, int tier) {
-        this.id = id;
+    public Customer(String name, int tier) {
+        Faker faker = new Faker();
+        this.id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
         this.name = name;
         this.tier = tier;
     }
