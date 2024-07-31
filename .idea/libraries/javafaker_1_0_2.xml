@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="javafaker-1.0.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/javafaker-1.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/snakeyaml-2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
