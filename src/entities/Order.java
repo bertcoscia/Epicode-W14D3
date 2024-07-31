@@ -2,8 +2,6 @@ package entities;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Random;
-import java.util.function.Supplier;
 
 public class Order {
     protected long id;
@@ -13,12 +11,8 @@ public class Order {
     protected List<Product> products;
     protected Customer customer;
 
-    public Order(Customer customer) {
-        Supplier<Long> randomIdSupplier = () -> {
-            Random random = new Random();
-            return random.nextLong(1000, 10000);
-        };
-        this.id = randomIdSupplier.get();
+    public Order(long id, Customer customer) {
+        this.id = id;
         this.status = "Accepted";
         LocalDate today = LocalDate.now();
         this.orderDate = today;
@@ -76,7 +70,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order n. " + id + " {" +
+        return "Order {" +
                 "id=" + id +
                 ", status='" + status + '\'' +
                 ", orderDate=" + orderDate +

@@ -1,19 +1,12 @@
 package entities;
 
-import java.util.Random;
-import java.util.function.Supplier;
-
 public class Customer {
     protected long id;
     protected String name;
     protected int tier;
 
-    public Customer(String name, int tier) {
-        Supplier<Long> randomIdSupplier = () -> {
-            Random random = new Random();
-            return random.nextLong(1000, 10000);
-        };
-        this.id = randomIdSupplier.get();
+    public Customer(long id, String name, int tier) {
+        this.id = id;
         this.name = name;
         this.tier = tier;
     }
@@ -44,7 +37,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer " + name + " {" +
+        return "Customer {" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", tier=" + tier +

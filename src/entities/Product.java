@@ -1,23 +1,16 @@
 package entities;
 
-import java.util.Random;
-import java.util.function.Supplier;
-
 public class Product {
     protected long id;
     protected String name;
     protected String category;
     protected double price;
 
-    public Product(String name, String category, double price) {
+    public Product(long id, String name, String category, double price) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;
-        Supplier<Long> randomIdSupplier = () -> {
-            Random random = new Random();
-            return random.nextLong(1000, 10000);
-        };
-        this.id = randomIdSupplier.get();
     }
 
     public long getId() {
@@ -54,7 +47,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product " + name + " {" +
+        return "Product {" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
