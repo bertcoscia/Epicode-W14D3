@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +16,9 @@ public class Customer {
         this.tier = tier;
     }
 
-    public Order createOrder(Product... product) {
+    public Order createOrder(LocalDate orderDate, Product... product) {
         List<Product> products = new ArrayList<>(Arrays.asList(product));
-        return new Order(this, products);
+        return new Order(this, products, orderDate);
     }
 
     public long getId() {

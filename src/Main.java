@@ -4,7 +4,11 @@ import entities.Order;
 import entities.Product;
 import functional_interfaces.Discount;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -59,11 +63,12 @@ public class Main {
             int product1 = faker.number().numberBetween(0, 29);
             int product2 = faker.number().numberBetween(0, 29);
             int product3 = faker.number().numberBetween(0, 29);
-            Order order = customer.createOrder(products.get(product1), products.get(product2), products.get(product3));
+            LocalDate dateOrder = LocalDate.now();
+            Order order = customer.createOrder(dateOrder, products.get(product1), products.get(product2), products.get(product3));
             orders.add(order);
         }
 
-        /*System.out.println("--------ORDERS-------");
+       /* System.out.println("--------ORDERS-------");
         for (Order order : orders) {
             System.out.println(order);
         }*/
@@ -112,6 +117,40 @@ public class Main {
             System.out.println(product);
         }
 
+        /*---------------------------------------------EX4---------------------------------------------*/
 
+        for (int i = 0; i < 5; i++) {
+            int product = faker.number().numberBetween(0, 29);
+            LocalDate firstApril = LocalDate.parse("2024-04-01");
+            LocalDate firstJune = LocalDate.parse("2024-06-01");
+            Date date = faker.date().between(asDate(firstApril), asDate(firstJune));
+            LocalDate dateOrder = asLocalDate(date);
+            Order order = customers.get(i).createOrder(dateOrder, products.get(product));
+            orders.add(order);
+        }
+
+        LocalDate lastDayOfMarch = LocalDate.parse("2024-03-31");
+        LocalDate firstJuly = LocalDate.parse("2024-07-01");
+        Predicate<Order> isAfterLastDayOfMarch = order -> order.getOrderDate().isAfter(lastDayOfMarch);
+        Predicate<Order> isBeforeFirstJuly = order -> order.getOrderDate().isBefore(firstJuly);
+        Predicate<Order> isTierTwo = order -> order.getCustomer().getTier() == 2;
+
+        List<Order> twoMonthsOrders = orders.stream()
+                .filter(isAfterLastDayOfMarch.and(isBeforeFirstJuly))
+                .filter(isTierTwo)
+                .toList();
+
+        System.out.println("/*---------------------------------------------EX4---------------------------------------------*/");
+        for (Order order : twoMonthsOrders) {
+            System.out.println(order);
+        }
+    }
+
+    public static Date asDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static LocalDate asLocalDate(Date date) {
+        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }

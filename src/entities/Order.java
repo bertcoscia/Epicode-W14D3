@@ -13,13 +13,12 @@ public class Order {
     protected List<Product> products;
     protected Customer customer;
 
-    public Order(Customer customer, List<Product> products) {
+    public Order(Customer customer, List<Product> products, LocalDate orderDate) {
         Faker faker = new Faker();
         this.id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
         this.status = "Accepted";
-        LocalDate today = LocalDate.now();
-        this.orderDate = today;
-        this.deliveryDate = today.plusDays(2);
+        this.orderDate = orderDate;
+        this.deliveryDate = orderDate.plusDays(2);
         this.products = products;
         this.customer = customer;
     }
