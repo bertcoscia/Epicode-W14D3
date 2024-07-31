@@ -73,10 +73,26 @@ public class Main {
         Predicate<Product> costsMoreThanHundred = product -> product.getPrice() > 100;
 
         List<Product> expensiveBooks = products.stream().filter(isBook.and(costsMoreThanHundred)).toList();
+
+        System.out.println("/*---------------------------------------------EX1---------------------------------------------*/");
         for (Product book : expensiveBooks) {
             System.out.println(book);
         }
 
-        
+        /*---------------------------------------------EX2---------------------------------------------*/
+
+        Predicate<Product> isBaby = product -> product.getCategory().equals("Baby");
+        Predicate<Order> containsBaby = order -> order.getProducts().stream().anyMatch(isBaby);
+
+        List<Order> babyOrders = orders.stream()
+                .filter(containsBaby)
+                .toList();
+
+        System.out.println("/*---------------------------------------------EX2---------------------------------------------*/");
+        for (Order order : babyOrders) {
+            System.out.println(order);
+        }
+
+
     }
 }
