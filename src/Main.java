@@ -5,6 +5,7 @@ import entities.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Main {
     public static void main(String[] args) {
@@ -61,9 +62,21 @@ public class Main {
             orders.add(order);
         }
 
-        System.out.println("--------ORDERS-------");
+        /*System.out.println("--------ORDERS-------");
         for (Order order : orders) {
             System.out.println(order);
+        }*/
+
+        /*---------------------------------------------EX1---------------------------------------------*/
+
+        Predicate<Product> isBook = product -> product.getCategory().equals("Books");
+        Predicate<Product> costsMoreThanHundred = product -> product.getPrice() > 100;
+
+        List<Product> expensiveBooks = products.stream().filter(isBook.and(costsMoreThanHundred)).toList();
+        for (Product book : expensiveBooks) {
+            System.out.println(book);
         }
+
+        
     }
 }
