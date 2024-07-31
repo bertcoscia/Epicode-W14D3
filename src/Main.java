@@ -2,6 +2,7 @@ import com.github.javafaker.Faker;
 import entities.Customer;
 import entities.Order;
 import entities.Product;
+import functional_interfaces.Discount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,24 @@ public class Main {
         System.out.println("/*---------------------------------------------EX2---------------------------------------------*/");
         for (Order order : babyOrders) {
             System.out.println(order);
+        }
+
+        /*---------------------------------------------EX3---------------------------------------------*/
+
+        Predicate<Product> isBoys = product -> product.getCategory().equals("Boys");
+        Discount minusTenPercent = product -> {
+            double price = product.getPrice();
+            double discount = (price * 10) / 100;
+            product.setPrice(price - discount);
+            return product;
+        };
+
+        List<Product> boysProducts = products.stream().filter(isBoys).map(minusTenPercent::discountPrice).toList();
+        /*List<Product> boysProducts = products.stream().filter(isBoys).map(product -> minusTenPercent.discountPrice(product)).toList();*/
+
+        System.out.println("/*---------------------------------------------EX3---------------------------------------------*/");
+        for (Product product : boysProducts) {
+            System.out.println(product);
         }
 
 
