@@ -1,5 +1,6 @@
 import com.github.javafaker.Faker;
 import entities.Customer;
+import entities.Order;
 import entities.Product;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class Main {
             Customer customer = new Customer(id, name, tier);
             customers.add(customer);
         }
-        System.out.println("--------CUSTOMERS-------");
-        for (Customer customer : customers) System.out.println(customer);
+        /*System.out.println("--------CUSTOMERS-------");
+        for (Customer customer : customers) System.out.println(customer);*/
 
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -48,7 +49,21 @@ public class Main {
             products.add(product);
         }
 
-        System.out.println("--------PRODUCTS-------");
-        for (Product product : products) System.out.println(product);
+        /*System.out.println("--------PRODUCTS-------");
+        for (Product product : products) System.out.println(product);*/
+
+        List<Order> orders = new ArrayList<>();
+        for (Customer customer : customers) {
+            int product1 = faker.number().numberBetween(0, 29);
+            int product2 = faker.number().numberBetween(0, 29);
+            int product3 = faker.number().numberBetween(0, 29);
+            Order order = customer.createOrder(products.get(product1), products.get(product2), products.get(product3));
+            orders.add(order);
+        }
+
+        System.out.println("--------ORDERS-------");
+        for (Order order : orders) {
+            System.out.println(order);
+        }
     }
 }

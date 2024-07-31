@@ -1,5 +1,9 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Customer {
     protected long id;
     protected String name;
@@ -9,6 +13,11 @@ public class Customer {
         this.id = id;
         this.name = name;
         this.tier = tier;
+    }
+
+    public Order createOrder(Product... product) {
+        List<Product> products = new ArrayList<>(Arrays.asList(product));
+        return new Order(this, products);
     }
 
     public long getId() {

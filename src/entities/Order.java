@@ -1,5 +1,7 @@
 package entities;
 
+import com.github.javafaker.Faker;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,12 +13,14 @@ public class Order {
     protected List<Product> products;
     protected Customer customer;
 
-    public Order(long id, Customer customer) {
-        this.id = id;
+    public Order(Customer customer, List<Product> products) {
+        Faker faker = new Faker();
+        this.id = Long.parseLong(faker.idNumber().validSvSeSsn().substring(0, 5));
         this.status = "Accepted";
         LocalDate today = LocalDate.now();
         this.orderDate = today;
         this.deliveryDate = today.plusDays(2);
+        this.products = products;
         this.customer = customer;
     }
 
