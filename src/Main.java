@@ -12,17 +12,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Main {
     public static void main(String[] args) {
         Faker faker = new Faker();
 
-        List<Customer> customers = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        Supplier<Customer> randomCustomer = () -> {
             String name = faker.lordOfTheRings().character();
             int tier = faker.number().numberBetween(1, 3);
-            Customer customer = new Customer(name, tier);
-            customers.add(customer);
+            return new Customer(name, tier);
+        };
+
+        List<Customer> customers = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            customers.add(randomCustomer.get());
         }
         /*System.out.println("--------CUSTOMERS-------");
         for (Customer customer : customers) System.out.println(customer);*/
